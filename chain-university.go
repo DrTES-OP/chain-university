@@ -3,14 +3,14 @@ package main
 
 import (
 	"errors"
-	//"encoding/json"	
-	//"strconv"
+	"encoding/json"	
+	"strconv"
 	"fmt"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
 
-type account struct{
+type student struct{
 RollNumber int `json:"rollnumber"`
 Name string `json:"name"`
 Percent int `json:"percent"`
@@ -109,4 +109,35 @@ func (t *SimpleChaincode) getInfo(stub shim.ChaincodeStubInterface,args []string
 
 
 
+func (t *SimpleChaincode) modify (stub shim.ChaincodeStubInterface,args []string) ([]byte,error) {
+	var err error
+	if len(args!=3) {
+		return nil, errors.New("number of arguments are wrong")
+	}
+	field:=args[1]
+	value:=args[2]
+	valAsbytes,err :=stub.GetState(args[0])
+	modifiedAC:=student{}
+	json.Unmarshal(valAsbytes,&modifiedAC)
+	if field=="name" {
+		modifiedAC.Name=value
+	} else if field== "college" {
+		modifiedAC.RollNumber=value
+	} else if field=="percent" {
+		modifiedAC.Percent=strconv.Atoi(value)
+	} else if field=="year" {
+		modifiedAC.Year=strconv.Atoi(value)
+	} else {
+		return nil, errors.New("no right field to be changed")
+	}
+	
+	str:=`{"rollnumber": `+args[0]+`, "name": "`+args[1]+`", "percent": `+args[2]+`, "year":`+args[3]+`, "college":"`+args[4]+`"}`
+	err=stub.PutState(args[0],[]byte(str))
+	
+	if err!=nil {
+		return nil,errors.New("couldnt update")
+	}
+return nil,nil
+
+}
 
