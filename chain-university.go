@@ -141,7 +141,7 @@ func (t *SimpleChaincode) modify (stub shim.ChaincodeStubInterface,args []string
 		return nil, errors.New("no right field to be changed")
 	}
 	
-	str:=`{"rollnumber": `+args[0]+`, "name": "`+args[1]+`", "percent": `+args[2]+`, "year":`+args[3]+`, "college":"`+args[4]+`"}`
+	str:=`{"rollnumber": `+strconv.Itoa(modifiedAC.RollNumber)+`, "name": "`+modifiedAC.Name+`", "percent": `+strconv.Itoa(modifiedAC.Percent)+`, "year":`+strconv.Itoa(modifiedAC.Year)+`, "college":"`+modifiedAC.College+`"}`
 	err=stub.PutState(args[0],[]byte(str))
 	
 	if err!=nil {
