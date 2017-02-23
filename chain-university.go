@@ -54,8 +54,6 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return t.Init(stub, "init", args)
 	} else if function == "addRecord" {
 		return t.addRecord(stub, args)
-	} else if function == "increaseBalance" {
-		return t.increaseBalance(stub,args)
 	}
 	fmt.Println("invoke did not find func: " + function)
 
@@ -72,7 +70,7 @@ func (t *SimpleChaincode) addRecord(stub shim.ChaincodeStubInterface, args []str
 	
 
 	str:=`{"rollnumber": `+args[0]+`, "name": "`+args[1]+`", "percent": `+args[2]+`, "year":`+args[3]+`, "college":"`+args[4]+`"}`
-	err=stub.PutState([]byte(rollnumber),str)
+	err=stub.PutState(rollnumber,[]byte(str))
 	if err!=nil {
 		return nil, err
 	}
