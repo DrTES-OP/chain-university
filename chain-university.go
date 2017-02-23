@@ -67,7 +67,7 @@ func (t *SimpleChaincode) addRecord(stub shim.ChaincodeStubInterface, args []str
 	var err error
 	var rollnumber string =args[0]	
 	if len(args)!=5 {
-		return nil, new errors.New("Incorrect number of args, expected 5 for record entry")
+		return nil, errors.New("Incorrect number of args, expected 5 for record entry")
 	}
 	
 
