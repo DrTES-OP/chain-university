@@ -111,7 +111,7 @@ func (t *SimpleChaincode) getInfo(stub shim.ChaincodeStubInterface,args []string
 
 func (t *SimpleChaincode) modify (stub shim.ChaincodeStubInterface,args []string) ([]byte,error) {
 	var err error
-	if len(args!=3) {
+	if len(args)!=3 {
 		return nil, errors.New("number of arguments are wrong")
 	}
 	field:=args[1]
@@ -122,11 +122,19 @@ func (t *SimpleChaincode) modify (stub shim.ChaincodeStubInterface,args []string
 	if field=="name" {
 		modifiedAC.Name=value
 	} else if field== "college" {
-		modifiedAC.RollNumber=value
-	} else if field=="percent" {
-		modifiedAC.Percent=strconv.Atoi(value)
-	} else if field=="year" {
-		modifiedAC.Year=strconv.Atoi(value)
+		modifiedAC.College=value
+	} else if field=="percent" {		
+		temp,err:=strconv.Atoi(value)
+		if err!=nil {
+			return nil,errors.New("couldnt update")
+		}	
+		modifiedAC.Percent=temp
+	} else if field=="year" {		
+		temp1,err:=strconv.Atoi(value)
+		if err!=nil {
+			return nil,errors.New("couldnt update")
+		}
+		modifiedAC.Year=temp1
 	} else {
 		return nil, errors.New("no right field to be changed")
 	}
