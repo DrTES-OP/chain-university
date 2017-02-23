@@ -54,6 +54,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return t.Init(stub, "init", args)
 	} else if function == "addRecord" {
 		return t.addRecord(stub, args)
+	} else if function=="modify" {
+		return t.modify(stub,args)
 	}
 	fmt.Println("invoke did not find func: " + function)
 
