@@ -137,10 +137,10 @@ func (t *SimpleChaincode) seeAll(stub shim.ChaincodeStubInterface, args []string
 	}
 	
 	json.Unmarshal(valAsbytes,&index)
-	var allResults []string
+	var allResults string
 	for i,j:=range index {
 		oneResult,err :=stub.GetState(j)
-		allResults=append(allResults,string(oneResult[:]))
+		allResults=allResults+string(oneResult[:])
 	}
 	return []byte(allResults), nil
 	
