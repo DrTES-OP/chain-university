@@ -133,7 +133,15 @@ func (t *SimpleChaincode) seeAll(stub shim.ChaincodeStubInterface, args []string
 	if err!=nil {
 		return nil, errors.New("error!!")
 	}
-	return valAsbytes, nil
+	
+	json.Unmarshal(valAsbytes,&index)
+	var allResults string
+	for i,j:=range index {
+		oneResult,err :=stub.GetState(j)
+		allResults=append(allResults,string(oneResult[:]))
+	}
+	return []byte(allResults), nil
+	
 
 }
 
