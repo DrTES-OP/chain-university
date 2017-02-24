@@ -140,6 +140,9 @@ func (t *SimpleChaincode) seeAll(stub shim.ChaincodeStubInterface, args []string
 	var allResults string
 	for i:=range index {
 		oneResult,err :=stub.GetState(index[i])
+		if err!=nil {
+			return nil, errors.New("error!!")
+		}
 		allResults=allResults+string(oneResult[:])
 	}
 	return []byte(allResults), nil
