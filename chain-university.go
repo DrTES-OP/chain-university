@@ -38,6 +38,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
+	var empty []string
 	indexAsbytes, _:= json.Marshal(empty)
 	err := stub.PutState(indexstr,indexAsbytes)
 	if err != nil {
