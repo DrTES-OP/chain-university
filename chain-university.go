@@ -137,12 +137,19 @@ func (t *SimpleChaincode) modify (stub shim.ChaincodeStubInterface,args []string
 			return nil,errors.New("couldnt update")
 		}
 		modifiedAC.Year=temp1
+	} else if field=="rollnumber" {
+			temp2,err:=strconv.Atoi(value)
+			if err!=nil {
+				return nil,errors.New("couldnt update")
+			}
+			modifiedAC.RollNumber=temp2
+			err=stub.DelState(args[0])
 	} else {
 		return nil, errors.New("no right field to be changed")
 	}
 	
 	str:=`{"rollnumber": `+strconv.Itoa(modifiedAC.RollNumber)+`, "name": "`+modifiedAC.Name+`", "percent": `+strconv.Itoa(modifiedAC.Percent)+`, "year":`+strconv.Itoa(modifiedAC.Year)+`, "college":"`+modifiedAC.College+`"}`
-	err=stub.PutState(args[0],[]byte(str))
+	err=stub.PutState(strconv.Itoa(modifiedAC.RollNumber),[]byte(str))
 	
 	if err!=nil {
 		return nil,errors.New("couldnt update")
@@ -150,4 +157,13 @@ func (t *SimpleChaincode) modify (stub shim.ChaincodeStubInterface,args []string
 return nil,nil
 
 }
+
+
+
+
+
+
+
+
+
 
